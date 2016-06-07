@@ -1,0 +1,1265 @@
+ import org.jibble.pircbot.*;
+import java.util.Timer;
+import java.util.Random;
+
+public class MyBot extends PircBot {
+
+
+//VARIABLES//
+
+    public static final long DURATION = 1 * 15 * 1000;
+
+    private Timer timer = new Timer(true);
+
+	public String TempString1;
+
+    public Boolean delay = false;
+
+	private Boolean talkedTo = false;
+	private Boolean talk = false;
+	private int talkCounter = 0;
+	private String talker;
+	private String talkString;
+
+    private Random random = new Random( );
+
+    private int WordTrigger;
+    private int WordGroup;
+    private int WordType;
+    private int mood = random.nextInt(6)+1;
+    private int moodchange = 0;
+    private int TempNum1;
+    private int TempNum2;
+    private int TempNum3;
+    private int TempNum4;
+    private int TempNum5;
+    private double[] speakChance = new double[100];
+
+
+    private String lastTalked1;
+    private String lastTalked2;
+    private String lastTalked3;
+    private String lastTalked4;
+    private String lastTalked5;
+
+    private String lastSaid1;
+    private String lastSaid2;
+    private String lastSaid3;
+    private String lastSaid4;
+    private String lastSaid5;
+
+    private String TempString2;
+    private String TempString3;
+    private String TempString4;
+    private String TempString5;
+    private String TempWord1;
+    private String TempWord2;
+    private int lastmood;
+
+
+    public MyBot() {
+        this.setName("SneetosMan");
+
+    }
+
+    public void onMessage(String channel, String sender,
+                       String login, String hostname, String message) {
+
+//RANDOMLY CHANGE MOOD//
+	if (random.nextInt(50) == 0) {
+	lastmood = mood;
+	moodchange = 0;
+	while (lastmood == mood) {
+	mood = random.nextInt(6)+1;
+	}
+	}
+//MOOD CHANGE END//
+
+//BAN STUFF//
+        if (message.toLowerCase().contains("bit.ly") ){
+	sendMessage(channel, "/timeout " + sender + " 600");
+	}
+
+
+//BAN STUFF END//
+
+//SNEETOS RESPONSES//
+
+if (talkedTo == true) {
+
+
+
+	talkCounter++;
+	if (talkCounter == 30) {
+		talkCounter = 0;
+		talkedTo = false;
+	}
+
+	if (talker.compareToIgnoreCase(sender) == 0) {
+
+
+		if (talkString == "sarcastic") {
+			if (message.toLowerCase().contains("shot")  || message.toLowerCase().contains("wow")  || message.toLowerCase().contains("pls")  || message.toLowerCase().contains("plz")  || message.toLowerCase().contains("please") ) {
+		TempString1 = sender + " if you're so tough why don't you do something about it? Kappa";
+		talk = true;
+			}
+		}
+
+		if (talk == true) {
+			talkCounter = 0;
+			talkedTo = false;
+			talk = false;
+			speak1(channel, sender, login, hostname, message);
+		}
+	}
+
+}
+
+//SNEETOS RESPONSES END //
+
+//MOD COMMANDS//
+
+	if ((message.contains("Z")) && (sender.toLowerCase().equalsIgnoreCase("winkers91") || sender.toLowerCase().equalsIgnoreCase("moltov"))) {
+		lastmood = mood;
+		while (lastmood == mood) {
+		mood = random.nextInt(6)+1;
+		}
+		moodchange = 0;
+	}
+
+	if ((message.toLowerCase().contains("calm down")) && sender.toLowerCase().equalsIgnoreCase("moltov")) {
+		sendMessage(channel, "Okay :(.");
+		MyBotTimerTask timerTask = new MyBotTimerTask(this, sender, channel);
+		timer.schedule(timerTask, DURATION*3);
+		delay = true;
+	}
+
+	if ((message.toLowerCase().contains("apologize")) && sender.toLowerCase().equalsIgnoreCase("moltov")) {
+		sendMessage(channel, "I'm sorry. :(");
+		MyBotTimerTask timerTask = new MyBotTimerTask(this, sender, channel);
+		timer.schedule(timerTask, DURATION*3);
+		delay = true;
+	}
+
+	if ((message.toLowerCase().contains("shut up")) && sender.toLowerCase().equalsIgnoreCase("moltov")) {
+		sendMessage(channel, "Yes sir. :(");
+		MyBotTimerTask timerTask = new MyBotTimerTask(this, sender, channel);
+		timer.schedule(timerTask, DURATION*3);
+		delay = true;
+	}
+
+
+	if ((message.toLowerCase().contains("bad sneeto")) && sender.toLowerCase().equalsIgnoreCase("ajazzyfeel")) {
+		sendMessage(channel, "Yes maam. :(");
+		MyBotTimerTask timerTask = new MyBotTimerTask(this, sender, channel);
+		timer.schedule(timerTask, DURATION*2);
+		delay = true;
+	}
+	if ((message.toLowerCase().contains("thrust")) && sender.toLowerCase().equalsIgnoreCase("thefearowoftime")) {
+		sendMessage(channel, "Tell us the cult chant Fearow Kreygasm");
+	}
+	if ((message.toLowerCase().contains("swag")) && sender.toLowerCase().equalsIgnoreCase("dat_swag_doe")) {
+		sendMessage(channel, "If Bambi had another child it would have been you. :)");
+	}
+	if ((message.toLowerCase().contains("crotch")) && sender.toLowerCase().equalsIgnoreCase("firecrotch219")) {
+		sendMessage(channel, "Things sure are getting hot around here aren't they? Kreygasm");
+	}
+	if ((message.toLowerCase().contains("sneeto")) && sender.toLowerCase().equalsIgnoreCase("mobi_")) {
+		sendMessage(channel, "It's a good thing he added a split for this right Mobi? Kappa");
+	}
+	if ((message.toLowerCase().contains("scarey")) && sender.toLowerCase().equalsIgnoreCase("mindelan")) {
+		sendMessage(channel, "HES A VERY.. SCAREY.. MONSTER MAN!");
+	}
+	if ((message.toLowerCase().contains("kappa")) && sender.toLowerCase().equalsIgnoreCase("nathanisbored")) {
+		sendMessage(channel, "Nathan plz.");
+	}
+	if ((message.toLowerCase().contains("Kappa")) && sender.toLowerCase().equalsIgnoreCase("bismuth9")) {
+		sendMessage(channel, "Shut up Bismuth.");
+	}
+
+//MOD COMMANDS END//
+
+//DELAY WHAT HE IS SAYING//
+        if (delay == false) {
+
+	//ANGRY MOOD//
+	if (mood == 1 || random.nextInt(50) == 0) {
+
+		if ((message.toLowerCase().contains("split")) && delay == false) {
+		TempString1 = "Splitting is for noobs who have no confidence.";
+		WordTrigger = 1;
+		WordGroup = 1;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("reset")) && delay == false) {
+		TempString1 = "THIS STUPID GAME IS DUMB JUST START OVER AND PLAY FASTER. I HATE YOU " + sender + " AND MOLTOV. SwiftRage";
+		WordTrigger = 10;
+		WordGroup = 1;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "angry";
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("hax")  || message.toLowerCase().contains("hack")) && delay == false) {
+		TempString1 = "Moltob is a HACKERRRRR!!!!";
+		WordTrigger = 20;
+		WordGroup = 1;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("cheat")) && delay == false) {
+		TempString1 = "Shut your poop hole " + sender + ".";
+		WordTrigger = 30;
+		WordGroup = 1;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "angry";
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("plz") || message.toLowerCase().contains("pls") || message.toLowerCase().contains("please")) && delay == false) {
+
+		TempNum2 = random.nextInt(5);
+		if (TempNum2 == 0) {
+		TempString1 = sender + ", ALL YOU DO IS WHINE!";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Oh, sorry I couldn't here you guys over " + sender + " and his crying.";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "PLZZZ I AM A BIG BABY AND ALL I CAN DO IS CRY, I AM " + sender;
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "Wow, " + sender + " might as well wear diapers and poop youself. :/";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = sender + ", do you want your bottle? Kappa";
+		}
+		WordTrigger = 40;
+		WordGroup = 1;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "angry";
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("suck")) && delay == false) {
+		TempString1 = "Oh really " + sender + "? Is that what you think? NEWS FLASH, THE WORLD DOESN'T REVOLVE AROUND YOU!";
+		WordTrigger = 50;
+		WordGroup = 1;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "angry";
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}
+
+//HYPED MOOD//
+	if (mood == 2 || random.nextInt(50) == 0) {
+
+		if ((message.toLowerCase().contains("yolo")  || message.toLowerCase().contains("yobo")) && delay == false) {
+		TempString1 = "YOU ONLY BEAST ONCE! PogChamp";
+		WordTrigger = 60;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.contains("TriHard")) && delay == false) {
+		TempString1 = "\\TriHard/ HYPE \\TriHard/";
+		WordTrigger = 70;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.contains("Kreygasm")) && delay == false) {
+
+		if (TempNum2 == 0) {
+		TempString1 = "Wow \\Kreygasm/ this looks like peanut butter " + sender +" ~Kappa~.";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Kreygasm somebody grab the jelly.";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = sender + ", the power of two Kreygasm's is better than one!";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "Who's allergic to peanut butter? BECAUSE YOU BETTER LEAVE THE ROOM! Kappa";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = sender + ", what's your favorite flavor of icecream? oh, oh, really? WELL IT JUST BECAME PEANUT BUTTER! Kreygasm";
+		}
+		WordTrigger = 80;
+		WordGroup = 2;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "hyped";
+		talker = sender;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("teh urn")) && delay == false) {
+		TempString1 = "I'm feeling so urny,";
+		WordTrigger = 90;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("47")) && delay == false) {
+		TempString1 = "47 or bust Moltov..";
+		WordTrigger = 100;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("48")) && delay == false) {
+		TempString1 = "You can do it, " + sender + " and I believe in the magic of 48.";
+		WordTrigger = 110;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("49")) && delay == false) {
+		TempString1 = "1 fire? 49 no problem.";
+		WordTrigger = 120;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("50")) && delay == false) {
+		TempString1 = "50, not bad.";
+		WordTrigger = 130;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("51")) && delay == false) {
+		TempString1 = "Bonks are OP. 51 D:";
+		WordTrigger = 140;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("52")) && delay == false) {
+		TempString1 = "52 :( reset.";
+		WordTrigger = 150;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("springgreen")  || message.toLowerCase().contains("spring green")) && delay == false) {
+
+		if (TempNum2 == 0) {
+		TempString1 = "/me SPRING GREEN Kreygasm";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "SpringGreen";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "SpringGreen SpringGreen SpringGreen Kappa";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "GetHype";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "BRING BACK THE BEAT! GetHype";
+		}
+		WordTrigger = 160;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("quadra bonk")) && delay == false) {
+		TempString1 = "Frame precise fails. ~Kreygasm~";
+		WordTrigger = 170;
+		WordGroup = 2;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}// end of Hyped
+
+	//SAD MOOD//
+	if (mood == 3 || random.nextInt(50) == 0) {
+
+		if ((message.contains("BibleThump")) && delay == false) {
+
+		TempNum2 = random.nextInt(5);
+		if (TempNum2 == 0) {
+		TempString1 = "B-b-b-but teh urn BibleThump";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "*sniffle* BibleThump";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "Why is today so horrible? BibleThump";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "First my cat dies, now this :(";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "BibleThump PLZ BibleThump";
+		}
+		WordTrigger = 180;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.contains(":(")) && delay == false) {
+
+		TempNum2 = random.nextInt(4);
+		if (TempNum2 == 0) {
+		TempString1 = "I want to commit Sudoku!";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "My life is end.";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "I'm going to sniff markers to soothe my pain. D:";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "A puppy could live off of my tears :(";
+		}
+		WordTrigger = 190;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("please")  || message.toLowerCase().contains("pls") || message.toLowerCase().contains("plz")) && delay == false) {
+
+		TempNum2 = random.nextInt(3);
+		if (TempNum2 == 0) {
+		TempString1 = "I know " + sender + ", if only he did bufferless. BibleThump";
+		talkedTo = true;
+		talkString = "sad";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Plz make this an urn so I can sleep.";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "Urn plz.";
+		}
+		WordTrigger = 200;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("reset")) && delay == false) {
+
+		TempNum2 = random.nextInt(6);
+		if (TempNum2 == 0) {
+		TempString1 = "NuuuuuuuuuuuuuUUUuuuu!";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "IF YOU RESET I'LL DIE.";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "NOOOOOOOOOOOOOOOOOoooooooooooooooooooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooooooooooooooooooouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu....... *cough cough cough*";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "That's it I've had it, I'm through with you.";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "Teh urnnnnnnn my brother D:.";
+		}
+		if (TempNum2 == 5) {
+		TempString1 = "My wrists are bleeding " + sender + ", BibleThump";
+		}
+
+		WordTrigger = 210;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains(":/")) && delay == false) {
+		TempString1 = "If only he beat this split I would feel so much better >.>.";
+		WordTrigger = 220;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("wow")) && delay == false) {
+		TempString1 = "My chat experience. D:"
+;
+		WordTrigger = 230;
+		WordGroup = 3;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}// end of sad
+
+	//SARCASTIC MOOD//
+
+	if (mood == 4 || random.nextInt(30) == 0) {
+
+        //START CALC OF WHAT TO SAY
+        for(int i=40; i < 60; i++) {
+            speakChance[i] = 0;
+        }
+        /*
+        LIST OF PHRASES AND THEIR INDEXS
+        40 = Kappa
+        41 = ganon
+        42 = gg
+        43 = moltov
+        44 = dampe
+        45 = reset
+        46 = honey%
+        47 = cucc
+        48 = sva
+        49 = sneeto
+        50 = SneetosMan
+        51 = OwlPercent
+        52 = Resetov
+        53 = Kappa
+        54 = Kappa
+
+         */
+        int j = 52;
+        //collect data
+
+        //////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////
+        if (message.contains("Kappa")) {
+            //set main value
+            if (speakChance[40] == 0) {
+                speakChance[40] = 8;
+            } else {
+                speakChance[40] = speakChance[40] + ((10 - speakChance[40])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 40) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("ganon")  || message.toLowerCase().contains("die")) {
+            //set main value
+            if (speakChance[41] == 0) {
+                speakChance[41] = 8;
+            } else {
+                speakChance[41] = speakChance[41] + ((10 - speakChance[41])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 41) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("gg")) {
+            //set main value
+            if (speakChance[42] == 0) {
+                speakChance[42] = 8;
+            } else {
+                speakChance[42] = speakChance[42] + ((10 - speakChance[42])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 42) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("moltov")) {
+            //set main value
+            if (speakChance[43] == 0) {
+                speakChance[43] = 8;
+            } else {
+                speakChance[43] = speakChance[43] + ((10 - speakChance[43])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 43) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("dampe")) {
+            //set main value
+            if (speakChance[44] == 0) {
+                speakChance[44] = 8;
+            } else {
+                speakChance[44] = speakChance[44] + ((10 - speakChance[44])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 44) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("reset")) {
+            //set main value
+            if (speakChance[45] == 0) {
+                speakChance[45] = 8;
+            } else {
+                speakChance[45] = speakChance[45] + ((10 - speakChance[45])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 45) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("honey%")) {
+            //set main value
+            if (speakChance[46] == 0) {
+                speakChance[46] = 8;
+            } else {
+                speakChance[46] = speakChance[46] + ((10 - speakChance[46])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 46) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("cucc")) {
+            //set main value
+            if (speakChance[47] == 0) {
+                speakChance[47] = 8;
+            } else {
+                speakChance[47] = speakChance[47] + ((10 - speakChance[47])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 47) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("sva")) {
+            //set main value
+            if (speakChance[48] == 0) {
+                speakChance[48] = 8;
+            } else {
+                speakChance[48] = speakChance[48] + ((10 - speakChance[48])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 48) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("sneeto")) {
+            //set main value
+            if (speakChance[49] == 0) {
+                speakChance[49] = 8;
+            } else {
+                speakChance[49] = speakChance[49] + ((10 - speakChance[49])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 49) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("sneetosman")) {
+            //set main value
+            if (speakChance[50] == 0) {
+                speakChance[50] = 8;
+            } else {
+                speakChance[50] = speakChance[50] + ((10 - speakChance[50])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 50) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("owlpercent")) {
+            //set main value
+            if (speakChance[51] == 0) {
+                speakChance[51] = 8;
+            } else {
+                speakChance[51] = speakChance[51] + ((10 - speakChance[51])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 51) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        if (message.toLowerCase().contains("owlpercent")) {
+            //set main value
+            if (speakChance[52] == 0) {
+                speakChance[52] = 8;
+            } else {
+                speakChance[52] = speakChance[52] + ((10 - speakChance[52])*0.8);
+            }
+            //set other values up a bit
+            for(int i=40; i < j; i++) {
+                if (i != 52) {
+                    if (speakChance[i] == 0) {
+                        speakChance[i] = 1;
+                    } else {
+                        speakChance[i] = speakChance[i] + ((10 - speakChance[i])*0.1);
+                    }
+                }
+            }
+
+        }
+
+		if (message.contains("Kappa")) {
+
+		TempNum2 = random.nextInt(10);
+		if (TempNum2 == 0) {
+		TempString1 = "Don't worry guys, he can make it up in forest Kappa";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "With Pydoyks gone, all we have is this noob. Kappa";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "I think we all know where he is making this time up at. Kappa";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "I had faith in Moltov until I saw his forest split. Kappa";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "Pydoyks would have made it up in forest. Kappa";
+		}
+		if (TempNum2 == 5) {
+		TempString1 = "If you thought that was bad wait until you see his forest split \\Kappa/";
+		}
+		if (TempNum2 == 6) {
+		TempString1 = "Even poodleskirt would have made it up in forest... FailFish";
+		}
+		if (TempNum2 == 7) {
+		TempString1 = "da na na na na na na na na na na na FOREST TEMPLE!!!!!!!!!! -Kappa-";
+		}
+		if (TempNum2 == 8) {
+		TempString1 = "F.O.R.E.S.T, Forest or reset every single time. Kappa";
+		}
+		if (TempNum2 == 9) {
+		TempString1 = "\\Kappa/ ~Kappa~ -Kappa- /\\/Kappa/\\/";
+		}
+
+
+		WordTrigger = 210;
+		WordGroup = 4;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("ganon")  || message.toLowerCase().contains("die")) {
+		TempString1 = "Headphone users RIP, what a scrub.";
+		WordTrigger = 220;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("gg")) {
+
+		TempNum2 = random.nextInt(3);
+		if (TempNum2 == 0) {
+		TempString1 = "It's okay I like watching the intro cutscene Kappab";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Inb4 rage. <(Kappa<)";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "Wow, I really don't think he could make this up in forest :(.";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "Wow you screwed up, get with it. FailFish";
+		}
+		WordTrigger = 230;
+		WordGroup = 4;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("moltov")) {
+		TempNum2 = random.nextInt(6);
+		if (TempNum2 == 0) {
+		TempString1 = "If only he was Pydoyks this would be WR pace dKappab";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Any% No RBA, No WW, No skill. Kappab";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "Moltov? Gross ~Kappa~";
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "The worlds largest world record holder of fake categorys. Kappab";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "Don't worry, he's my favorite speedrunner too, when Pydoyks isn't streaming. Kappa";
+		}
+		if (TempNum2 == 5) {
+		TempString1 = "Everyone needs a man child in their life <Kappa>";
+		}
+
+		WordTrigger = 230;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("dampe")) {
+		TempString1 = "BAKEMONO!";
+		WordTrigger = 240;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("reset")) {
+		TempNum2 = random.nextInt(3);
+		if (TempNum2 == 0) {
+		TempString1 = "Bonked in links house? RESET!";
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "Time for my favorite part. Kappab";
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "If he doesn't reset I'm leaving. Kappa";
+		}
+
+		WordTrigger = 260;
+		WordGroup = 4;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("honey%")) {
+		TempString1 = "It looks like we're in a sticky situation " + sender + ". Kappa";
+		WordTrigger = 270;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("cucc")) {
+		TempString1 = "You think you can handle chicks well? I have a setup that works every time. Kappab";
+		WordTrigger = 280;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if (message.toLowerCase().contains("sva")) {
+		TempString1 = "Welcome to ocarina of time!";
+		WordTrigger = 290;
+		WordGroup = 4;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+
+		if (message.toLowerCase().contains("sneeto")) {
+		TempNum2 = random.nextInt(8);
+		if (TempNum2 == 0) {
+		TempString1 = "Whaaaat!? It's not like anyone can time me out. Kappa";
+		talkedTo = true;
+		talkString = "sarcastic";
+		talker = sender;
+		}
+		if (TempNum2 == 1) {
+		TempString1 = "You got a problem with me " + sender + "? Kappa";
+		talkedTo = true;
+		talkString = "sarcastic";
+		talker = sender;
+		}
+		if (TempNum2 == 2) {
+		TempString1 = "Who is sneetosman?. Kappa";
+		talkedTo = true;
+		talkString = "sarcastic";
+		talker = sender;
+		}
+		if (TempNum2 == 3) {
+		TempString1 = "Just call me sneetos 8D";
+		}
+		if (TempNum2 == 4) {
+		TempString1 = "Shhhh, don't tell ghoti. ;)";
+		}
+		if (TempNum2 == 5) {
+		TempString1 = "Believe in the sneetos.";
+		}
+		if (TempNum2 == 6) {
+		TempString1 = "Evilsnurdeeps? Plz sneetos is the master race.";
+		talkedTo = true;
+		talkString = "sarcastic";
+		talker = sender;
+		}
+		if (TempNum2 == 7) {
+		TempString1 = "Shhhh " + sender + " ;)";
+		talkedTo = true;
+		talkString = "sarcastic";
+		talker = sender;
+		}
+
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}// end of SARCASTIC
+
+	//CHILL MOOD//
+	if (mood == 5 || random.nextInt(50) == 0) {
+
+		if ((message.toLowerCase().contains("hi ")  || message.toLowerCase().contains("hello")) && delay == false) {
+		TempString1 = "Sup brah.";
+		WordTrigger = 300;
+		WordGroup = 5;
+		WordType = 2;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("sup")) && delay == false) {
+		TempString1 = "*Fistbump*";
+		WordTrigger = 310;
+		WordGroup = 5;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "chill";
+		talker = sender;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("brah")  || message.toLowerCase().contains("bro")) && delay == false) {
+		TempString1 = "Let's share some chocolate milk.";
+		WordTrigger = 320;
+		WordGroup = 5;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "chill";
+		talker = sender;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("molly")) && delay == false) {
+		TempString1 = "Call em what you like " + sender + " but we're all bros. KevinTurtleb";
+		WordTrigger = 330;
+		WordGroup = 5;
+		WordType = 1;
+		talkedTo = true;
+		talkString = "chill";
+		talker = sender;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("yo ")) && delay == false) {
+		TempString1 = sender + " Homie g dawg, I'll buy you a pizza.";
+		WordTrigger = 340;
+		WordGroup = 5;
+		WordType = 2;
+		talkedTo = true;
+		talkString = "chill";
+		talker = sender;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}// end of CHILL
+
+	//TWITCHY MOOD//
+	if (mood == 6 || random.nextInt(50) == 0) {
+
+		if ((message.contains("FrankerZFG") ) && delay == false) {
+		TempString1 = "Oh my God, you're a zelda fan girl too?";
+		WordTrigger = 350;
+		WordGroup = 6;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("thrust")) && delay == false) {
+		TempString1 = "Is that the cult chant? \\Kreygasm/";
+		WordTrigger = 360;
+		WordGroup = 6;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.contains("WinWaker")) && delay == false) {
+		TempString1 = sender + ", I'd super swim with you any day of the week!";
+		WordTrigger = 370;
+		WordGroup = 6;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("greg")) && delay == false) {
+		TempString1 = "With all the strength of a raging Greg!";
+		WordTrigger = 380;
+		WordGroup = 6;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("sig")) && delay == false) {
+		TempString1 = sender + " will this be 12.7 or 12.8? Kappa";
+		WordTrigger = 390;
+		WordGroup = 6;
+		WordType = 1;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+		if ((message.toLowerCase().contains("woof")) && delay == false) {
+		TempString1 = sender + ", don't bring up that crap you stinky willy.";
+		WordTrigger = 400;
+		WordGroup = 6;
+		speak1(channel, sender, login, hostname, message);
+		}
+
+	}// end of TWITCHY
+
+	//SENTENCE BETA//
+
+	if (delay == false) {
+
+	} //END OF SENTENCE
+
+	}//end of delay
+
+    }//end of on message
+
+
+//SPEAK1 COMMAND
+
+public void speak1(String channel, String sender,
+                       String login, String hostname, String message) {
+
+	int TempInt = random.nextInt(1);
+
+	//CHECK FOR RANDOM SENTENCE//
+	if (TempInt == 1) {
+		constructsentence1(channel, sender, login, hostname, message);
+	}
+
+	//Say the normal thing
+	if (TempInt == 0) {
+
+        boolean speak = true;
+        if ((lastSaid1 == TempString1) ||
+                (lastSaid2 == TempString1) ||
+                (lastSaid2 == TempString1) ||
+                (lastSaid2 == TempString1) ||
+                (lastSaid2 == TempString1)) {
+            speak = false;
+        }
+        if ((lastTalked1 == sender) ||
+                (lastTalked2 == sender) ||
+                (lastTalked3 == sender) ||
+                (lastTalked4 == sender) ||
+                (lastTalked5 == sender)) {
+            speak = false;
+        }
+
+
+        if (speak == true) {
+            MyBotTimerTask timerTask = new MyBotTimerTask(this, sender, channel);
+            timer.schedule(timerTask, DURATION);
+            MyBotTimerTask2 timerTask2 = new MyBotTimerTask2(this, sender, channel, TempString1);
+            timer.schedule(timerTask2, 1000 + (random.nextInt(8))*1000);
+
+            delay = true;
+            lastSaid5 = lastSaid4;
+            lastSaid4 = lastSaid3;
+            lastSaid3 = lastSaid2;
+            lastSaid2 = lastSaid1;
+            lastSaid1 = TempString1;
+
+            lastTalked5 = lastTalked4;
+            lastTalked4 = lastTalked3;
+            lastTalked3 = lastTalked2;
+            lastTalked2 = lastTalked1;
+            lastTalked1 = sender;
+        }
+
+		if (random.nextInt(15) <= moodchange) {
+			lastmood = mood;
+			while (lastmood == mood) {
+				mood = random.nextInt(6)+1;
+				moodchange = 0;
+				}
+			} else {
+			moodchange++;
+		}
+	}
+
+}//End of speak1
+
+
+
+
+public void constructsentence1(String channel, String sender,
+                       String login, String hostname, String message) {
+
+	if(WordGroup == 1) {
+
+	TempNum1 = random.nextInt(1);
+	switch(TempNum1) {
+		case 0: doublestartnoun(channel, sender, login, hostname, message);
+			TempString5 = TempString2 + TempString3 + "noun" + TempString4;
+			break;
+
+
+		}//End of switch
+
+	sendMessage(channel, TempString5);
+
+	}//End of WordGroup1
+
+}//End of constructsentence1
+
+public void doublestartnoun(String channel, String sender,
+                       String login, String hostname, String message) {
+
+		TempNum3 = random.nextInt(5);
+
+	switch(TempNum3) {
+		case 0: TempString2 = "If you thought that was weird, I once ";
+			break;
+		case 1: TempString2 = "One time I accidently tripped and ";
+			break;
+		case 2: TempString2 = "Ever had weird fluids come out of your nose? I ";
+			break;
+		case 3: TempString2 = "I thought this was bad too until I ";
+			break;
+		case 4: TempString2 = "The last time I did this I ";
+			break;
+		}
+		TempNum3 = random.nextInt(5);
+
+	switch(TempNum3) {
+		case 0: TempString3 = "pooped on ";
+			break;
+		case 1: TempString3 = "sniffed ";
+			break;
+		case 2: TempString3 = "sat on ";
+			break;
+		case 3: TempString3 = "played extreme hopscotch with ";
+			break;
+		case 4: TempString3 = "played basketball with ";
+			break;
+		}
+		TempNum3 = random.nextInt(5);
+
+	switch(TempNum3) {
+		case 0: TempString4 = " and that was the end of it. LOL";
+			break;
+		case 1: TempString4 = " but that wasn't the end of it.";
+			break;
+		case 2: TempString4 = ", it didn't end well. :(";
+			break;
+		case 3: TempString4 = ", isn't that weird?";
+			break;
+		case 4: TempString4 = ", I'm pretty sure it was illegal...";
+			break;
+		}
+}// End of doublestartnoun
+
+
+}//end of pircbot
